@@ -1,18 +1,25 @@
-# Production launch checklist
+# Deployment checklist — Siena-Aguilar Rice Distribution
 
-- [ ] Implement real authentication, secure sessions, password reset, and account bootstrap.
-- [ ] Add server-side role and permission checks to every read/write operation.
-- [ ] Replace demo state with Neon-backed product, sale, purchase, payment, customer, supplier, and expense operations.
-- [ ] Implement atomic sale creation, stock locking, inventory movement ledger, idempotency keys, and transaction reversal.
-- [ ] Add persistent purchase receiving and partial delivery support.
-- [ ] Add payment allocations and customer/supplier balance statements.
-- [ ] Implement weighted-average or FIFO costing consistently and document assumptions.
-- [ ] Add real dashboard/report queries with timezone-safe date ranges.
-- [ ] Add XLSX/PDF export if required; currently CSV is implemented in the UI.
-- [ ] Configure Google Sheets OAuth/service access and sync retry/duplicate prevention if needed.
-- [ ] Configure Neon backup/recovery and test a restore.
-- [ ] Add service worker only with safe caching rules for private data; manifest is included.
-- [ ] Add automated unit/integration tests and run `npm run build` in a configured environment.
-- [ ] Review migrations, security headers, rate limiting, dependency alerts, and secrets.
-- [ ] Test mobile installation on a real Android device and desktop browsers.
-- [ ] Validate all calculations and reports against real business scenarios before launch.
+## Before deploying the updated app
+
+- [ ] Back up the Neon database.
+- [ ] In Neon SQL Editor, run `db/migrations/0001_manager_credit_catalog.sql` once. It adds the `manager` enum role and the `sales.customer_name` column.
+- [ ] Confirm the existing `owner` account still exists and is active.
+- [ ] In Vercel → Project → Settings → Environment Variables, verify `DATABASE_URL` and `SESSION_SECRET` are configured for Production.
+- [ ] Ensure `SESSION_SECRET` is a long random value (at least 32 characters). Keep it private.
+- [ ] Push the updated source to GitHub and wait for Vercel to deploy.
+
+## After deployment
+
+- [ ] Open `/` in a private/incognito browser and confirm the public catalog loads from Neon.
+- [ ] Log in at `/login` using the Super Admin account; confirm it redirects to `/dashboard` and shows User Accounts only.
+- [ ] Create a Manager account and sign out.
+- [ ] Sign in as Manager and add a real rice product with current stock, sack weight, cost, and prices.
+- [ ] Confirm that product appears in the public catalog.
+- [ ] Test a small sale and confirm stock is deducted and the sale is listed.
+- [ ] Test a credit sale and record a partial payment; confirm the balance remains open and payment history is recorded.
+- [ ] Record a purchase and an expense; confirm reports reflect them.
+- [ ] Verify that Manager cannot access `/api/users` and that Super Admin cannot access operational APIs.
+- [ ] Verify the browser tab shows the rice icon.
+
+Do not test with large or financially significant transactions until the deployment and database changes are confirmed. The source package should receive a successful Vercel build before being treated as production-ready.

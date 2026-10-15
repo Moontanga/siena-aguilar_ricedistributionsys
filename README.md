@@ -1,86 +1,58 @@
 # Siena-Aguilar Rice Distribution
 
-A Next.js + TypeScript application foundation for a rice inventory, sales, and distribution system. Includes a responsive 3D-inspired dashboard, interactive demo inventory and POS workflows, CSV exports, PWA manifest, Neon/PostgreSQL Drizzle schema, and deployment configuration examples.
+A Next.js 15 + TypeScript business-to-consumer rice distribution app using Neon PostgreSQL and Drizzle ORM. The public homepage is a shareable rice catalog; the secure dashboard is database-backed and separates Super Admin account administration from Manager operations.
 
-> **Important status note:** This package is an initial application build, not a production-ready accounting system. The dashboard currently uses illustrative in-browser demo data. The schema and database connection foundation are included, but authentication, persistent CRUD endpoints, atomic sale/purchase workflows, Google Sheets OAuth, scheduled backup, and production testing must be implemented and verified before using it for live transactions. Do not enter real business data until those are complete.
+## Current functionality
 
-## Requirements
+- Public catalog at `/` with active rice products, prices per kg/per sack, availability, search, and inquiry links.
+- Secure login at `/login`; successful login redirects to `/dashboard`.
+- Super Admin (`owner` database role): create, edit, deactivate, and manage Super Admin/Manager accounts. Account deactivation preserves transaction history. At least one active Super Admin is required.
+- Manager (`manager` database role): database-backed rice inventory, pricing, stock, sales/POS, purchases/stock receipts, expenses, reports, and credit ledger.
+- Stock is tracked in kg; each product has its own sack weight and optional separate sack price.
+- Sale posting locks stock rows and commits the sale, sale lines, stock deductions, movement records, and initial payment together.
+- Credit ledger records every payment separately and calculates the remaining amount. Partial payments do not close a balance until paid in full.
+- Audit log entries for important actions.
+- Browser tab icon from `/public/icon.svg`.
 
-- Node.js 20.9+ (Node 22 LTS recommended)
-- npm
-- A Neon PostgreSQL project for database-backed development
+## Setup
 
-## Local setup
+Requirements: Node.js 20.9+ (Node 22 LTS recommended), npm, and a Neon PostgreSQL database.
 
-1. Extract the project archive and open its directory.
-2. Install packages:
+1. Install packages with `npm install`.
+2. Create `.env.local` (or `.env` for scripts) with `DATABASE_URL` and `SESSION_SECRET` (a random value at least 32 characters long). Do not commit either file.
+3. Apply the existing database schema/migrations if this is a fresh database.
+4. For an existing deployment created from the initial version, open Neon SQL Editor and run the contents of `db/migrations/0001_manager_credit_catalog.sql` **once**. This adds the `manager` role and the sale's buyer-name snapshot. Do not run this step repeatedly as a substitute for migrations.
+5. Ensure the `owner` account exists, then run `npm run dev`.
+6. Open `http://localhost:3000/` for the public catalog or `/login` for staff access.
 
-   ```bash
-   npm install
-   ```
+## Environment variables
 
-3. Copy `.env.example` to `.env.local` and configure `DATABASE_URL` and a long random `SESSION_SECRET`.
-4. Generate and apply database migrations:
+- `DATABASE_URL`: Neon PostgreSQL connection string for the intended database.
+- `SESSION_SECRET`: long random secret, minimum 32 characters.
+- `APP_URL`: optional deployment URL.
 
-   ```bash
-   npm run db:generate
-   npm run db:migrate
-   ```
+Set the same required variables in Vercel Project Settings → Environment Variables. Redeploy after changing Vercel environment variables. Never push `.env` or `.env.local` to GitHub.
 
-5. Start the app:
+## Roles
 
-   ```bash
-   npm run dev
-   ```
+- `owner` is displayed as **Super Admin**. It can access account administration and manage users; it cannot access operational APIs.
+- `manager` is the operational role. It can manage business records but cannot access user-management APIs or create accounts.
+- Existing legacy roles (`admin`, `cashier`, `inventory`) are retained in the database enum for compatibility, but the new operational dashboard/API permissions are intended for the `manager` role. Promote a staff account to `manager` through Super Admin account management.
 
-6. Visit `http://localhost:3000`.
+## Public catalog
 
-## Included now
+Share the production site's root URL with customers. The catalog only lists active products and does not expose exact stock quantities or purchase costs. Before promoting it publicly, configure a real business phone/WhatsApp number and business contact details in `app/page.tsx`.
 
-- Responsive desktop/mobile navigation and rice-business dashboard
-- 3D-inspired emerald/forest/gold visual identity
-- Demo rice product table with search
-- Add product flow for the current browser session
-- POS modal with kilogram/sack conversion, separate per-sack pricing, total calculation, and insufficient-stock check
-- Demo sales history and customer balance figures
-- Inventory and sales CSV exports
-- Reports and backup readiness pages
-- PWA manifest and icon
-- Drizzle schema for users, products, customers, suppliers, sales, sale items, purchases, purchase items, inventory movements, payments, expenses, and audit logs
-- Neon connection helper and example environment configuration
+## Data safety
 
-## Critical business rules
+The old browser-only sample dashboard was removed from the active UI. No sample inventory or sales are loaded into the new dashboard. The new app reads real records from Neon. This does not automatically delete existing database records; inspect your database before running any destructive cleanup. Keep the existing Super Admin account.
 
-- Inventory is tracked in kilograms as the canonical quantity.
-- Each rice product has its own sack weight.
-- Sack pricing can differ from kilogram pricing.
-- Sale stock deductions must be atomic with the sale record in production.
-- Never silently delete posted financial records; use reversals and audit trails.
-- CSV exports are not database backups.
+Posted financial records should be reversed or adjusted with audited workflows rather than silently deleted. Back up Neon before applying schema changes or cleaning test transactions.
 
-## Deploying to Vercel
-
-1. Push this repository to GitHub.
-2. Import the repository into Vercel.
-3. Create a Neon PostgreSQL database and set `DATABASE_URL` in Vercel project environment variables. Use the pooled connection string for normal application queries.
-4. Set `SESSION_SECRET` and `APP_URL` as appropriate for the deployment.
-5. Run reviewed migrations against the intended database.
-6. Deploy and test in a non-production environment before importing business data.
-
-## Security warning
-
-Do not expose database credentials in client-side code, commit `.env.local`, or use the demo data as a live source of truth. Before production use, implement and test server-side authentication and role authorization, database-backed route handlers/actions, transaction-safe stock operations, rate limiting, audit logging, secure export endpoints, and backup/restore procedures.
-
-## Initial owner login
-
-After applying migrations and setting `DATABASE_URL`, create the first owner from a trusted local terminal. Do not add administrator creation to a public signup route.
+## Build and deploy
 
 ```bash
-ADMIN_NAME="System Owner" ADMIN_EMAIL="owner@example.com" ADMIN_PASSWORD="use-a-long-unique-password" npm run admin:create
+npm run build
 ```
 
-The login page is `/login`. The dashboard route and API endpoints are guarded by a signed, HTTP-only session cookie. Database-backed login requires the configured Neon database and the first owner account.
-
-## Available database API foundation
-
-Authenticated API routes are included for login/logout/current session, listing/creating products, updating/archiving products, listing/creating sales, listing/creating purchase receipts, recording expenses, and aggregate reports. These endpoints require the Neon database and a valid owner/staff session. The visible dashboard still uses local demo state and is not yet wired to these endpoints; this distinction is deliberate and documented so the demo interface is not mistaken for live persisted records.
+Push reviewed changes to GitHub to trigger Vercel deployment. Schema changes must be applied to Neon separately; a Git push alone does not alter the database schema.

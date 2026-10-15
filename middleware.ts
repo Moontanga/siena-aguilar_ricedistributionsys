@@ -4,7 +4,7 @@ import { jwtVerify } from 'jose';
 const COOKIE_NAME = 'siena_session';
 export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
-  if (pathname === '/login' || pathname.startsWith('/api/auth/login') || pathname.startsWith('/_next/') || pathname === '/manifest.json' || pathname === '/icon.svg' || pathname === '/favicon.ico') return NextResponse.next();
+  if (pathname === '/' || pathname === '/catalog' || pathname.startsWith('/api/public/') || pathname === '/login' || pathname.startsWith('/api/auth/login') || pathname.startsWith('/_next/') || pathname === '/manifest.json' || pathname === '/icon.svg' || pathname === '/favicon.ico') return NextResponse.next();
   const token = req.cookies.get(COOKIE_NAME)?.value;
   if (!token) {
     if (pathname.startsWith('/api/')) return NextResponse.json({error:'Authentication required.'},{status:401});

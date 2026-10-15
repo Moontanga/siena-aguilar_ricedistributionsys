@@ -15,10 +15,4 @@ async function main(){
   try { const db=drizzle({client:pool}); const passwordHash=await bcrypt.hash(password,12); await db.insert(users).values({name,email,passwordHash,role:'owner'}); console.log(`Created owner account: ${email}`); }
   finally { await pool.end(); }
 }
-main().catch((e) => {
-  console.error("Admin creation failed:", e);
-  if (e?.cause) {
-    console.error("Underlying database error:", e.cause);
-  }
-  process.exit(1);
-});
+main().catch(e=>{console.error(e.message);process.exit(1)});

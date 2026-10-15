@@ -10,7 +10,7 @@ function secret() {
   if (!value || value.length < 32) throw new Error('SESSION_SECRET must contain at least 32 characters.');
   return new TextEncoder().encode(value);
 }
-export type SessionUser = { id: string; name: string; email: string; role: 'owner'|'admin'|'cashier'|'inventory' };
+export type SessionUser = { id: string; name: string; email: string; role: 'owner'|'manager'|'admin'|'cashier'|'inventory' };
 export async function createSession(user: SessionUser) {
   const token = await new SignJWT({ name: user.name, email: user.email, role: user.role })
     .setProtectedHeader({ alg: 'HS256' }).setSubject(user.id).setIssuedAt().setIssuer('siena-aguilar').setAudience('siena-app').setExpirationTime('8h').sign(secret());
