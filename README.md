@@ -1,12 +1,12 @@
 # Siena-Aguilar Rice Distribution
 
-A Next.js 15 + TypeScript business-to-consumer rice distribution app using Neon PostgreSQL and Drizzle ORM. The public homepage is a shareable rice catalog; the secure dashboard is database-backed and separates Super Admin account administration from Manager operations.
+A Next.js 15 + TypeScript business-to-consumer rice distribution app using Neon PostgreSQL and Drizzle ORM. The public homepage is a shareable rice catalog; the secure dashboard is database-backed and separates Admin account administration from Manager operations.
 
 ## Current functionality
 
 - Public catalog at `/` with active rice products, prices per kg/per sack, availability, search, and inquiry links.
 - Secure login at `/login`; successful login redirects to `/dashboard`.
-- Super Admin (`owner` database role): create, edit, deactivate, and manage Super Admin/Manager accounts. Account deactivation preserves transaction history. At least one active Super Admin is required.
+- Admin (`admin` or legacy `owner` database role): access all operational modules and create, edit, or deactivate Admin/Manager accounts. Account deactivation preserves transaction history. At least one active Admin is required.
 - Manager (`manager` database role): database-backed rice inventory, pricing, stock, sales/POS, purchases/stock receipts, expenses, reports, and credit ledger.
 - Stock is tracked in kg; each product has its own sack weight and optional separate sack price.
 - Sale posting locks stock rows and commits the sale, sale lines, stock deductions, movement records, and initial payment together.
@@ -35,9 +35,9 @@ Set the same required variables in Vercel Project Settings → Environment Varia
 
 ## Roles
 
-- `owner` is displayed as **Super Admin**. It can access account administration and manage users; it cannot access operational APIs.
-- `manager` is the operational role. It can manage business records but cannot access user-management APIs or create accounts.
-- Existing legacy roles (`admin`, `cashier`, `inventory`) are retained in the database enum for compatibility, but the new operational dashboard/API permissions are intended for the `manager` role. Promote a staff account to `manager` through Super Admin account management.
+- `owner` is displayed as **Admin**. It can access account administration and manage users; it can access operational APIs.
+- `manager` can manage business records but cannot access user-management APIs or create accounts.
+- Existing legacy roles (`cashier` and `inventory`) are retained in the database enum for compatibility, but the current dashboard permissions are designed for `admin`/`owner` and `manager` accounts. Use Admin account management to assign either role.
 
 ## Public catalog
 
@@ -45,7 +45,7 @@ Share the production site's root URL with customers. The catalog only lists acti
 
 ## Data safety
 
-The old browser-only sample dashboard was removed from the active UI. No sample inventory or sales are loaded into the new dashboard. The new app reads real records from Neon. This does not automatically delete existing database records; inspect your database before running any destructive cleanup. Keep the existing Super Admin account.
+The old browser-only sample dashboard was removed from the active UI. No sample inventory or sales are loaded into the new dashboard. The new app reads real records from Neon. This does not automatically delete existing database records; inspect your database before running any destructive cleanup. Keep the existing Admin account.
 
 Posted financial records should be reversed or adjusted with audited workflows rather than silently deleted. Back up Neon before applying schema changes or cleaning test transactions.
 
