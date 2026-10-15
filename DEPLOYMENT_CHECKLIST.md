@@ -3,7 +3,9 @@
 ## Before deploying the updated app
 
 - [ ] Back up the Neon database.
-- [ ] In Neon SQL Editor, run `db/migrations/0001_manager_credit_catalog.sql` once. It adds the `manager` enum role and the `sales.customer_name` column.
+- [ ] In Neon SQL Editor, run `db/migrations/0001_manager_credit_catalog.sql` once if not already applied. It adds the `manager` enum role and the `sales.customer_name` column.
+- [ ] Run `db/migrations/0002_usernames.sql` once if not already applied. It adds usernames for existing accounts.
+- [ ] Run `db/migrations/0003_unbounded_user_fields.sql` once. It removes database column-length limits for account names, usernames, and emails.
 - [ ] Confirm the existing `owner` account (displayed as Admin) still exists and is active.
 - [ ] In Vercel → Project → Settings → Environment Variables, verify `DATABASE_URL` and `SESSION_SECRET` are configured for Production.
 - [ ] Ensure `SESSION_SECRET` is a long random value (at least 32 characters). Keep it private.
@@ -13,6 +15,8 @@
 
 - [ ] Open `/` in a private/incognito browser and confirm the public catalog loads from Neon.
 - [ ] Log in at `/login` using the Admin account; confirm it redirects to `/dashboard` and shows all operational modules and User Accounts.
+- [ ] Create a Manager account with a short password and confirm the eye icon reveals/hides it.
+- [ ] Edit the Admin account details, username, email, and password; confirm the new credentials work.
 - [ ] Create a Manager account and sign out.
 - [ ] Sign in as Manager and add a real rice product with current stock, sack weight, cost, and prices.
 - [ ] Confirm that product appears in the public catalog.
