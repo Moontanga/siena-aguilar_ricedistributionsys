@@ -1,0 +1,11 @@
+{
+  "name": "Siena-Aguilar Rice Distribution",
+  "short_name": "Siena Rice",
+  "description": "Rice inventory, sales, purchasing and distribution management.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f8f5",
+  "theme_color": "#0b251b",
+  "orientation": "portrait-primary",
+  "icons": [{"src":"/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
