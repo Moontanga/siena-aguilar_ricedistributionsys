@@ -56,3 +56,8 @@ npm run build
 ```
 
 Push reviewed changes to GitHub to trigger Vercel deployment. Schema changes must be applied to Neon separately; a Git push alone does not alter the database schema.
+
+
+## Username sign-in update
+
+Run `db/migrations/0002_usernames.sql` once in the Neon SQL Editor for the database configured in `DATABASE_URL`. Existing accounts receive a username based on the part of their email before `@`; if needed, a short suffix is added to keep usernames unique. Existing users can still sign in with either their username or registered email address. New accounts must have a unique username, a unique registered email, and a password of at least 12 characters.
