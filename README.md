@@ -1,4 +1,4 @@
-# Siena-Aguilar Rice Distribution
+# Siena-Aguilar Rice Distributor
 
 A Next.js 15 + TypeScript business-to-consumer rice distribution app using Neon PostgreSQL and Drizzle ORM. The public homepage is a shareable rice catalog; the secure dashboard is database-backed and separates Admin account administration from Manager operations.
 
@@ -60,4 +60,4 @@ Push reviewed changes to GitHub to trigger Vercel deployment. Schema changes mus
 
 ## Username sign-in update
 
-Run `db/migrations/0002_usernames.sql` once if it has not already been applied, then run `db/migrations/0003_unbounded_user_fields.sql` once in the Neon SQL Editor for the database configured in `DATABASE_URL`. Existing accounts receive a username based on the part of their email before `@`; if needed, a short suffix is added to keep usernames unique. Existing users can sign in with either their username or registered email address. New accounts require a name, unique username, valid unique email, and a non-empty password; there are no application-level minimum or maximum character rules for those text fields. Passwords are securely hashed and the password visibility eye toggle is available on login and account forms.
+Run `db/migrations/0004_account_profile_repair.sql` once in the Neon SQL Editor for the exact database configured in Vercel's `DATABASE_URL`. It consolidates the account-related schema repair (username column, manager role, case-insensitive username uniqueness, and customer name on sales). It is safe to re-run. If the old migrations 0001–0003 were not applied, this repair covers the account fields needed by the current app; keep the earlier migration files in the project. Existing accounts receive a username based on the part of their email before `@`; if needed, a short suffix is added to keep usernames unique. Existing users can sign in with either their username or registered email address. New accounts require a name, unique username, valid unique email, and a non-empty password; there are no application-level minimum or maximum character rules for those text fields. Passwords are securely hashed and the password visibility eye toggle is available on login and account forms. Users can update their own name, username, registered email, and password in the My profile tab. Login accepts either username or registered email.

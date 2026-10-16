@@ -20,3 +20,13 @@ export const inventoryMovements = pgTable('inventory_movements', { id: uuid('id'
 export const payments = pgTable('payments', { id: uuid('id').defaultRandom().primaryKey(), saleId: uuid('sale_id').references(()=>sales.id), purchaseId: uuid('purchase_id').references(()=>purchases.id), amount: numeric('amount',{precision:14,scale:2}).notNull(), method: paymentMethodEnum('method').notNull(), reference: varchar('reference',{length:120}), notes: text('notes'), receivedBy: uuid('received_by').references(()=>users.id), createdAt: timestamp('created_at',{withTimezone:true}).notNull().defaultNow() });
 export const expenses = pgTable('expenses', { id: uuid('id').defaultRandom().primaryKey(), category: varchar('category',{length:100}).notNull(), description: text('description').notNull(), amount: numeric('amount',{precision:14,scale:2}).notNull(), paymentMethod: paymentMethodEnum('payment_method').notNull().default('cash'), reference: varchar('reference',{length:120}), createdBy: uuid('created_by').references(()=>users.id), createdAt: timestamp('created_at',{withTimezone:true}).notNull().defaultNow() });
 export const auditLogs = pgTable('audit_logs', { id: uuid('id').defaultRandom().primaryKey(), userId: uuid('user_id').references(()=>users.id), action: varchar('action',{length:100}).notNull(), entityType: varchar('entity_type',{length:80}).notNull(), entityId: varchar('entity_id',{length:100}), details: jsonb('details'), ipAddress: varchar('ip_address',{length:64}), createdAt: timestamp('created_at',{withTimezone:true}).notNull().defaultNow() }, t => [index('audit_logs_created_idx').on(t.createdAt)]);
+
+export const businessProfile = pgTable('business_profile', {
+  id: varchar('id',{length:32}).primaryKey().default('main'),
+  businessName: varchar('business_name',{length:180}).notNull().default('Siena-Aguilar Rice Distributor'),
+  contactNumber: varchar('contact_number',{length:40}),
+  contactEmail: varchar('contact_email',{length:254}),
+  facebookUrl: text('facebook_url'),
+  businessAddress: text('business_address'),
+  updatedAt: timestamp('updated_at',{withTimezone:true}).notNull().defaultNow()
+});

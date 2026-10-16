@@ -10,7 +10,7 @@ function secret() {
   if (!value || value.length < 32) throw new Error('SESSION_SECRET must contain at least 32 characters.');
   return new TextEncoder().encode(value);
 }
-export type SessionUser = { id: string; name: string; email: string; role: 'owner'|'manager'|'admin'|'cashier'|'inventory' };
+export type SessionUser = { id: string; name: string; username: string; email: string; role: 'owner'|'manager'|'admin'|'cashier'|'inventory' };
 export async function createSession(user: SessionUser) {
   const token = await new SignJWT({ name: user.name, email: user.email, role: user.role })
     .setProtectedHeader({ alg: 'HS256' }).setSubject(user.id).setIssuedAt().setIssuer('siena-aguilar').setAudience('siena-app').setExpirationTime('8h').sign(secret());
@@ -24,9 +24,9 @@ export async function getSessionUser(): Promise<SessionUser|null> {
     const { payload } = await jwtVerify(token, secret(), { issuer: 'siena-aguilar', audience: 'siena-app' });
     if (!payload.sub) return null;
     if (!db) return null;
-    const [user] = await db.select({id:users.id,name:users.name,email:users.email,role:users.role,active:users.active}).from(users).where(eq(users.id,payload.sub)).limit(1);
+    const [user] = await db.select({id:users.id,name:users.name,username:users.username,email:users.email,role:users.role,active:users.active}).from(users).where(eq(users.id,payload.sub)).limit(1);
     if (!user || !user.active) return null;
-    return {id:user.id,name:user.name,email:user.email,role:user.role};
+    return {id:user.id,name:user.name,username:user.username,email:user.email,role:user.role};
   } catch { return null; }
 }
 export async function requireRole(roles: SessionUser['role'][]): Promise<SessionUser> {

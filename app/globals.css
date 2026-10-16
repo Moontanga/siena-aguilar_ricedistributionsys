@@ -19,3 +19,11 @@
 .password-field>input{padding-right:42px!important;width:100%;min-width:0}
 .password-reveal{position:absolute;right:7px;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:30px;height:30px;border:0;border-radius:6px;background:transparent;color:#58715e;cursor:pointer}
 .password-reveal:hover{background:#edf3ec;color:#174b32}
+
+.profile-panel{max-width:920px}.profile-form{grid-template-columns:repeat(2,minmax(0,1fr))}.profile-form>button{align-self:end;min-height:40px}.admin-primary:disabled{opacity:.65;cursor:wait}@media(max-width:650px){.profile-form{grid-template-columns:1fr}.profile-form .wide-field{grid-column:auto}}
+
+/* Public business contact links */
+.store-contact-items > a { display:flex; align-items:center; gap:12px; color:inherit; text-decoration:none; padding:14px 16px; border:1px solid rgba(28,68,48,.14); border-radius:12px; background:rgba(255,255,255,.72); transition:transform .15s ease, border-color .15s ease; }
+.store-contact-items > a:hover { transform:translateY(-1px); border-color:#4e7b58; }
+.store-contact-items > a > span:nth-child(2) { min-width:0; display:flex; flex-direction:column; gap:4px; overflow-wrap:anywhere; }
+.store-contact-items > a > span:nth-child(2) small { color:#65746b; }
