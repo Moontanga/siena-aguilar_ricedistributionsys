@@ -65,3 +65,7 @@ Run `db/migrations/0004_account_profile_repair.sql` once in the Neon SQL Editor 
 ## Sales and purchase trash + delivery fee update
 
 Before deploying the latest dashboard changes, run `db/migrations/0001_sales_purchases_trash_delivery.sql` once in the Neon SQL Editor for the same database used by Vercel's `DATABASE_URL`. This adds the sale delivery-fee field and recoverable-trash metadata for sales and purchases. The migration uses `IF NOT EXISTS` and is safe to re-run. Then push/deploy the app changes from GitHub.
+
+## Expense editing and Trash update
+
+Before deploying expense editing, restore, Trash, and permanent deletion, run `db/migrations/0002_expenses_trash.sql` once in the Neon SQL Editor for the same database used by Vercel's `DATABASE_URL`. It adds the `deleted_at` and `deleted_by` fields used to keep deleted expenses recoverable. The migration uses `IF NOT EXISTS` and is safe to re-run. Expenses moved to Trash are excluded from active expense listings and report totals; permanent deletion is only allowed from Trash.
