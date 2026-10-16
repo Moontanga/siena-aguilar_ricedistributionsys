@@ -40,9 +40,9 @@ return <main className="admin-app"><aside className="admin-sidebar"><a href="/" 
       <div className="admin-panel-head">
         <div><h2>Customer credit</h2><p>Switch between customer summaries and individual credit invoices.</p></div>
       </div>
-      <div className="admin-form-grid" style={{gridTemplateColumns:'repeat(2,minmax(0,1fr))'}}>
-        <button type="button" className={creditView==='profiles'?'admin-row-primary':'admin-row-secondary'} onClick={()=>setCreditView('profiles')}>Credit Profiles</button>
-        <button type="button" className={creditView==='ledger'?'admin-row-primary':'admin-row-secondary'} onClick={()=>setCreditView('ledger')}>Credit Ledger</button>
+      <div className="credit-switch" role="tablist" aria-label="Customer credit views">
+        <button type="button" role="tab" aria-selected={creditView==='ledger'} className={creditView==='ledger'?'credit-switch-option is-active':'credit-switch-option'} onClick={()=>setCreditView('ledger')}><span className="credit-switch-number">01</span><span><b>Credit Ledger</b><small>Individual transactions</small></span></button>
+        <button type="button" role="tab" aria-selected={creditView==='profiles'} className={creditView==='profiles'?'credit-switch-option is-active':'credit-switch-option'} onClick={()=>setCreditView('profiles')}><span className="credit-switch-number">02</span><span><b>Credit Profiles</b><small>Customer balances</small></span></button>
       </div>
     </section>
     {creditView==='profiles' ? (
