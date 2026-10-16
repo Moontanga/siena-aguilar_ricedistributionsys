@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { eq, sql } from 'drizzle-orm';
-import { db, pool } from '@/lib/db';
-import { auditLogs, inventoryMovements, payments, products, purchaseItems, purchases } from '@/db/schema';
+import { pool } from '@/lib/db';
 import { getSessionUser } from '@/lib/auth';
 
 export const runtime = 'nodejs';
@@ -12,7 +10,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   if (!['manager', 'admin', 'owner'].includes(user.role)) {
     return NextResponse.json({ error: 'You do not have permission to delete purchases.' }, { status: 403 });
   }
-  if (!pool || !db) return NextResponse.json({ error: 'Database is not configured.' }, { status: 503 });
+  if (!pool) return NextResponse.json({ error: 'Database is not configured.' }, { status: 503 });
 
   const { id } = await params;
   const client = await pool.connect();
@@ -65,13 +63,10 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     await client.query('DELETE FROM purchase_items WHERE purchase_id = $1', [id]);
     await client.query('DELETE FROM purchases WHERE id = $1', [id]);
 
-    await db.insert(auditLogs).values({
-      userId: user.id,
-      action: 'delete',
-      entityType: 'purchase',
-      entityId: id,
-      details: { referenceNo: purchase.reference_no, reversedStockProducts: totals.size }
-    });
+    await client.query(
+      'INSERT INTO audit_logs (user_id, action, entity_type, entity_id, details) VALUES ($1, $2, $3, $4, $5::jsonb)',
+      [user.id, 'delete', 'purchase', id, JSON.stringify({ referenceNo: purchase.reference_no, reversedStockProducts: totals.size })]
+    );
 
     await client.query('COMMIT');
     return NextResponse.json({ ok: true, referenceNo: purchase.reference_no });
