@@ -1,3 +1,5 @@
+export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>}){const user=await getSessionUser();if(!user)return NextResponse.json({error:'Authentication required.'},{status:401});if(!allowed(user.role))return NextResponse.json({error:'You do not have permission to access this purchase.'},{status:403});if(!pool)return NextResponse.json({error:'Database is not configured.'},{status:503});const {id}=await params;const client=await pool.connect();try{const purchase=(await client.query('SELECT * FROM purchases WHERE id=$1',[id])).rows[0];if(!purchase)return NextResponse.json({error:'Purchase not found.'},{status:404});const items=(await client.query('SELECT pi.*,p.name AS product_name,p.sack_weight_kg FROM purchase_items pi LEFT JOIN products p ON p.id=pi.product_id WHERE pi.purchase_id=$1 ORDER BY pi.id',[id])).rows;return NextResponse.json({purchase,items,quantitySacks:items.reduce((n:any,i:any)=>n+Number(i.quantity_kg)/Math.max(0.001,Number(i.sack_weight_kg||50)),0)});}finally{client.release();}}
+
 import { NextRequest, NextResponse } from 'next/server';
 import { pool } from '@/lib/db';
 import { getSessionUser } from '@/lib/auth';
