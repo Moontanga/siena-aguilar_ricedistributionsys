@@ -15,6 +15,13 @@
       "when": 1792166040000,
       "tag": "0001_sales_purchases_trash_delivery",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792252440000,
+      "tag": "0002_expenses_trash",
+      "breakpoints": true
     }
   ]
 }
