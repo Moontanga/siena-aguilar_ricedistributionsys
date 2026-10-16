@@ -34,3 +34,22 @@
 .admin-action-loading-card small{color:#647469;font-size:12px}
 .admin-action-spinner{width:30px;height:30px;border:3px solid #dbe7dd;border-top-color:#267447;border-radius:50%;animation:admin-action-spin .7s linear infinite}
 @keyframes admin-action-spin{to{transform:rotate(360deg)}}
+
+
+/* Credit view selector: tactile, raised 3D segmented buttons. */
+.credit-switch{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:18px 0 4px;padding:8px;border:1px solid #d5e2d8;border-radius:18px;background:linear-gradient(145deg,#edf4ef,#dce8df);box-shadow:inset 3px 3px 7px rgba(37,67,47,.12),inset -3px -3px 7px rgba(255,255,255,.9)}
+.credit-switch-option{display:flex;align-items:center;gap:12px;min-width:0;padding:15px 18px;border:1px solid #d2dfd5;border-radius:13px;background:linear-gradient(145deg,#fff,#edf3ef);color:#284634;text-align:left;cursor:pointer;box-shadow:0 4px 0 #c6d5ca,0 7px 13px rgba(31,67,43,.10);transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease}
+.credit-switch-option:hover{transform:translateY(-2px);box-shadow:0 6px 0 #c6d5ca,0 10px 18px rgba(31,67,43,.15)}
+.credit-switch-option:active{transform:translateY(2px);box-shadow:0 1px 0 #c6d5ca,0 3px 6px rgba(31,67,43,.10)}
+.credit-switch-option.is-active{border-color:#245f3b;background:linear-gradient(145deg,#347d50,#205c38);color:#fff;box-shadow:0 4px 0 #17462b,0 8px 16px rgba(22,75,42,.24)}
+.credit-switch-number{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border-radius:11px;background:rgba(34,91,54,.09);font-size:12px;font-weight:800;letter-spacing:.04em}
+.credit-switch-option.is-active .credit-switch-number{background:rgba(255,255,255,.16)}
+.credit-switch-option>span:last-child{display:flex;flex-direction:column;gap:4px}
+.credit-switch-option b{font-size:14px}
+.credit-switch-option small{font-size:12px;opacity:.78}
+@media(max-width:520px){.credit-switch{gap:8px;padding:6px}.credit-switch-option{padding:12px 10px;gap:8px}.credit-switch-number{flex-basis:30px;width:30px;height:30px}.credit-switch-option b{font-size:12px}.credit-switch-option small{font-size:10px}}
+/* Consistent subtle 3D depth for dashboard panels and primary controls. */
+.admin-panel{box-shadow:0 5px 0 rgba(26,64,39,.07),0 12px 28px rgba(24,54,35,.07)}
+.admin-primary,.admin-row-primary{box-shadow:0 3px 0 rgba(15,67,36,.28),0 5px 12px rgba(20,65,37,.12);transition:transform .15s ease,box-shadow .15s ease}
+.admin-primary:hover,.admin-row-primary:hover{transform:translateY(-1px);box-shadow:0 4px 0 rgba(15,67,36,.28),0 8px 16px rgba(20,65,37,.15)}
+.admin-primary:active,.admin-row-primary:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(15,67,36,.28)}
