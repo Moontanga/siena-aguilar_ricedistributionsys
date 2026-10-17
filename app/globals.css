@@ -56,3 +56,49 @@
 
 /* Cleaner, roomier page-level action bars for business tables. */
 .admin-page-title{align-items:center;flex-wrap:wrap;row-gap:14px}.admin-title-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;flex-wrap:wrap;max-width:100%}.admin-title-actions .admin-primary,.admin-title-actions .admin-secondary{white-space:nowrap}.admin-title-actions .admin-search{min-width:210px;max-width:250px}.admin-panel-head{flex-wrap:wrap}.admin-panel-head>.admin-title-actions,.admin-panel-head>.admin-actions{flex-wrap:wrap;justify-content:flex-end}@media(max-width:1100px){.admin-page-title{align-items:flex-start}.admin-title-actions{justify-content:flex-start}.admin-title-actions .admin-search{min-width:180px;flex:1}}
+
+
+/* Forest-and-gold UI polish: subtle depth, generous spacing, and consistent controls. */
+.admin-app{background:radial-gradient(ellipse at 92% 0%,#e9f0e5 0,transparent 35%),#f5f7f3}
+.admin-sidebar{background:linear-gradient(160deg,#164832 0%,#103b2a 56%,#0b3021 100%);box-shadow:7px 0 24px #143b2510}
+.admin-brand>span{box-shadow:0 5px 12px #071e1226,inset 0 1px 0 #fff9}
+.admin-nav button{transition:background .18s ease,transform .18s ease,box-shadow .18s ease}
+.admin-nav button:hover{transform:translateX(2px)}
+.admin-nav button.selected{background:linear-gradient(115deg,#2b6947,#1b5035);box-shadow:0 5px 12px #071e122c,inset 0 1px #ffffff20}
+.admin-top{background:#ffffffed;backdrop-filter:blur(14px);box-shadow:0 3px 16px #183d2604}
+.admin-content{padding-top:32px;padding-bottom:28px}
+.admin-page-title{align-items:center;flex-wrap:wrap;row-gap:14px;margin-bottom:26px}
+.admin-page-title h1{letter-spacing:-.035em}
+.admin-title-actions,.admin-actions{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap}
+.admin-primary,.admin-secondary,.admin-row-primary{transition:transform .16s ease,box-shadow .16s ease,background .16s ease,border-color .16s ease}
+.admin-primary{background:linear-gradient(145deg,#286746,#174b32);box-shadow:0 4px 10px #174b321c,inset 0 1px #ffffff2b}
+.admin-primary:hover{background:linear-gradient(145deg,#337951,#205c3c);box-shadow:0 7px 15px #174b3228;transform:translateY(-1px)}
+.admin-secondary{box-shadow:0 2px 5px #183d2605}
+.admin-secondary:hover{background:#f8fbf6;border-color:#c7d7c5;box-shadow:0 4px 10px #183d260c;transform:translateY(-1px)}
+.admin-metrics{gap:17px;margin-bottom:23px}
+.admin-metric{position:relative;overflow:hidden;border:1px solid #e2e9df;border-radius:14px;padding:20px;box-shadow:0 5px 15px #183d2607,inset 0 1px #ffffff;transition:transform .18s ease,box-shadow .18s ease}
+.admin-metric:after{content:"";position:absolute;right:-28px;top:-34px;width:94px;height:94px;border-radius:50%;background:linear-gradient(145deg,#dce9d5a6,#dce9d500);pointer-events:none}
+.admin-metric:hover{transform:translateY(-2px);box-shadow:0 10px 22px #183d2610,inset 0 1px #fff}
+.admin-metric>span{box-shadow:inset 0 1px #ffffff,0 3px 7px #183d2608}
+.admin-panel{border-color:#e1e8de;border-radius:14px;box-shadow:0 5px 18px #183d2606,inset 0 1px #fff;overflow:hidden}
+.admin-panel-head{padding:22px 24px;gap:16px}
+.admin-panel-head h2{letter-spacing:-.015em}
+.admin-table th{background:linear-gradient(180deg,#fbfcf9,#f5f8f2);padding:15px 18px}
+.admin-table td{padding:15px 18px;transition:background .12s ease}
+.admin-table tbody tr:hover td{background:#f8fbf6}
+.admin-table tr:last-child td{border-bottom:0}
+.admin-row-actions button{border-radius:7px;transition:background .15s ease,border-color .15s ease,transform .15s ease}
+.admin-row-actions button:hover{background:#f0f6ed;border-color:#cbdcc8;transform:translateY(-1px)}
+.admin-search{display:flex;align-items:center;gap:8px;border:1px solid #dce5d8;border-radius:9px;padding:0 11px;background:#fff;box-shadow:inset 0 1px 2px #163d2605}
+.admin-search:focus-within{border-color:#7da184;box-shadow:0 0 0 3px #2b694718}
+.admin-search input{border:0!important;outline:none!important;box-shadow:none!important;background:transparent!important;min-width:0}
+.admin-form-grid{gap:18px;padding:24px}
+.admin-form-grid input,.admin-form-grid select,.admin-form-grid textarea,.admin-modal-form input,.admin-modal-form select,.admin-modal-form textarea{border-radius:9px;transition:border-color .15s ease,box-shadow .15s ease}
+.admin-form-grid input:focus,.admin-form-grid select:focus,.admin-form-grid textarea:focus,.admin-modal-form input:focus,.admin-modal-form select:focus,.admin-modal-form textarea:focus{border-color:#7da184;box-shadow:0 0 0 3px #2b694718}
+.admin-modal{border:1px solid #e0e8dd;border-radius:16px;box-shadow:0 28px 90px #071b1270}
+.admin-modal>header,.admin-modal-actions{background:linear-gradient(180deg,#fff,#fbfcf9)}
+.admin-notice{border-radius:10px}
+.admin-status{padding:6px 9px}
+.admin-footnote{padding-top:12px}
+@media(max-width:1050px){.admin-page-title{align-items:flex-start}.admin-title-actions,.admin-actions{justify-content:flex-start}.admin-title-actions .admin-search{flex:1;min-width:180px}}
+@media(max-width:700px){.admin-content{padding:18px 12px}.admin-page-title h1{font-size:27px}.admin-panel-head{padding:17px;align-items:flex-start;flex-direction:column}.admin-title-actions,.admin-actions{width:100%;justify-content:flex-start;gap:7px}.admin-title-actions>*{max-width:100%}.admin-metrics{gap:10px}.admin-metric{padding:14px}.admin-metric>strong{font-size:21px}.admin-table th,.admin-table td{padding:12px 13px}}
