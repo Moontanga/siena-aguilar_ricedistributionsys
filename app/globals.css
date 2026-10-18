@@ -164,3 +164,20 @@
 /* Employee accounts are read-only: hide editing controls while retaining the reporting and viewing workspace. */
 .employee-mode .admin-form-grid,.employee-mode .admin-row-actions,.employee-mode .admin-actions,.employee-mode .admin-title-actions .admin-primary,.employee-mode .admin-panel form,.employee-mode .admin-modal,.employee-mode .admin-modal-backdrop{display:none!important;}
 .employee-mode .admin-title-actions button:not(.admin-secondary){display:none!important;}
+
+
+/* Keep the overview financial cards in two clean rows on desktop. */
+@media (min-width: 1200px) {
+  .admin-metrics.dashboard-overview-metrics { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 13px; }
+  .admin-metrics.report-metrics { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+  .dashboard-overview-metrics .admin-metric { padding: 15px; }
+  .dashboard-overview-metrics .admin-metric > strong { font-size: clamp(17px, 1.25vw, 22px); }
+  .dashboard-overview-metrics .admin-metric > span { margin-bottom: 12px; }
+}
+@media (min-width: 1051px) and (max-width: 1199px) {
+  .admin-metrics.dashboard-overview-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .admin-metrics.report-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (max-width: 1050px) {
+  .admin-metrics.dashboard-overview-metrics, .admin-metrics.report-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
