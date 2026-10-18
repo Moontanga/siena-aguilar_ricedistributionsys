@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { and, gte, lte, isNull, sql, eq } from 'drizzle-orm';
 import { db } from '@/lib/db';
-import { sales, purchases, products, expenses, saleItems } from '@/db/schema';
+import { sales, purchases, products, expenses, saleItems, payments } from '@/db/schema';
 import { getSessionUser } from '@/lib/auth';
 export const runtime='nodejs';
 export async function GET(req:NextRequest){
@@ -18,5 +18,6 @@ export async function GET(req:NextRequest){
  const [inventory]=await db.select({products:sql<number>`count(*)::int`,stockKg:sql<string>`coalesce(sum(${products.stockKg}),0)`,stockCost:sql<string>`coalesce(sum(${products.stockKg} * ${products.purchaseCostPerKg}),0)`,potentialRevenue:sql<string>`coalesce(sum((${products.stockKg}/nullif(${products.sackWeightKg},0)) * coalesce(${products.sellingPricePerSack},${products.sellingPricePerKg}*${products.sackWeightKg})),0)`}).from(products).where(eq(products.active,true));
  const sold=await db.select({revenue:sql<string>`coalesce(sum(${saleItems.lineTotal}),0)`,baseCost:sql<string>`coalesce(sum(${saleItems.quantityKg} * ${products.purchaseCostPerKg}),0)`}).from(saleItems).innerJoin(sales,eq(saleItems.saleId,sales.id)).leftJoin(products,eq(saleItems.productId,products.id)).where(and(isNull(sales.deletedAt),dateFilter(sales.createdAt),sql`${sales.status} NOT IN ('cancelled','reversed')`));
  const revenue=Number(sold[0]?.revenue||0);const baseCost=Number(sold[0]?.baseCost||0);
- return NextResponse.json({period:{from:from??null,to:to??null},sales:salesTotals,purchases:purchaseTotals,expenses:expenseTotals,inventory,profit:{salesRevenue:revenue,baseCostSold:baseCost,grossProfit:revenue-baseCost,potentialRevenue:Number(inventory?.potentialRevenue||0),potentialGrossProfit:Number(inventory?.potentialRevenue||0)-Number(inventory?.stockCost||0)}});
+ const [paymentTotals]=await db.select({cash:sql<string>`coalesce(sum(case when ${payments.method}='cash' then ${payments.amount} else 0 end),0)`,gcash:sql<string>`coalesce(sum(case when ${payments.method}='gcash' then ${payments.amount} else 0 end),0)`}).from(payments).innerJoin(sales,eq(payments.saleId,sales.id)).where(and(isNull(sales.deletedAt),dateFilter(payments.createdAt),sql`${sales.status} NOT IN ('cancelled','reversed')`));
+ return NextResponse.json({period:{from:from??null,to:to??null},sales:salesTotals,purchases:purchaseTotals,expenses:expenseTotals,inventory,profit:{salesRevenue:revenue,baseCostSold:baseCost,grossProfit:revenue-baseCost,potentialRevenue:Number(inventory?.potentialRevenue||0),potentialGrossProfit:Number(inventory?.potentialRevenue||0)-Number(inventory?.stockCost||0)},payments:{cash:Number(paymentTotals?.cash||0),gcash:Number(paymentTotals?.gcash||0)}});
 }
