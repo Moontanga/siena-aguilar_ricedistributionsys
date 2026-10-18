@@ -15,7 +15,7 @@ export async function middleware(req: NextRequest) {
     if (pathname.startsWith('/api/')) return NextResponse.json({error:'Authentication is not configured.'},{status:503});
     return NextResponse.redirect(new URL('/login?error=configuration', req.url));
   }
-  try { await jwtVerify(token, new TextEncoder().encode(secret), {issuer:'siena-aguilar',audience:'siena-app'}); return NextResponse.next(); }
+  try { const { payload } = await jwtVerify(token, new TextEncoder().encode(secret), {issuer:'siena-aguilar',audience:'siena-app'}); if (payload.role === 'employee' && !['GET','HEAD','OPTIONS'].includes(req.method) && pathname !== '/api/auth/logout') return NextResponse.json({error:'Employee accounts have view-only access.'},{status:403}); return NextResponse.next(); }
   catch { if (pathname.startsWith('/api/')) return NextResponse.json({error:'Authentication required.'},{status:401}); return NextResponse.redirect(new URL('/login',req.url)); }
 }
 export const config = { matcher: ['/((?!_next/static|_next/image).*)'] };
