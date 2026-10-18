@@ -10,12 +10,12 @@ function secret() {
   if (!value || value.length < 32) throw new Error('SESSION_SECRET must contain at least 32 characters.');
   return new TextEncoder().encode(value);
 }
-export type SessionUser = { id: string; name: string; username: string; email: string; role: 'owner'|'manager'|'admin'|'cashier'|'inventory' };
+export type SessionUser = { id: string; name: string; username: string; email: string; role: 'owner'|'manager'|'admin'|'employee'|'cashier'|'inventory' };
 export async function createSession(user: SessionUser) {
   const token = await new SignJWT({ name: user.name, email: user.email, role: user.role })
-    .setProtectedHeader({ alg: 'HS256' }).setSubject(user.id).setIssuedAt().setIssuer('siena-aguilar').setAudience('siena-app').setExpirationTime('8h').sign(secret());
+    .setProtectedHeader({ alg: 'HS256' }).setSubject(user.id).setIssuedAt().setIssuer('siena-aguilar').setAudience('siena-app').setExpirationTime('30d').sign(secret());
   const jar = await cookies();
-  jar.set(COOKIE_NAME, token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', path: '/', maxAge: 8 * 60 * 60 });
+  jar.set(COOKIE_NAME, token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', path: '/', maxAge: 30 * 24 * 60 * 60 });
 }
 export async function clearSession() { const jar = await cookies(); jar.set(COOKIE_NAME, '', { httpOnly: true, secure: process.env.NODE_ENV === 'production', sameSite: 'lax', path: '/', maxAge: 0 }); }
 export async function getSessionUser(): Promise<SessionUser|null> {
