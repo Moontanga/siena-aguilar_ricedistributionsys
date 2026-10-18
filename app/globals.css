@@ -159,3 +159,8 @@
 @media (min-width: 1200px){.dashboard-profit-metrics{grid-template-columns:repeat(5,minmax(0,1fr));}}
 @media (max-width: 1199px){.dashboard-profit-metrics{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media (max-width: 560px){.dashboard-profit-metrics{grid-template-columns:minmax(0,1fr);}}
+
+
+/* Employee accounts are read-only: hide editing controls while retaining the reporting and viewing workspace. */
+.employee-mode .admin-form-grid,.employee-mode .admin-row-actions,.employee-mode .admin-actions,.employee-mode .admin-title-actions .admin-primary,.employee-mode .admin-panel form,.employee-mode .admin-modal,.employee-mode .admin-modal-backdrop{display:none!important;}
+.employee-mode .admin-title-actions button:not(.admin-secondary){display:none!important;}
