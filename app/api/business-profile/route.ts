@@ -24,7 +24,7 @@ export async function GET() {
 }
 export async function PATCH(req:NextRequest) {
   const actor = await getSessionUser();
-  if (!actor || !['owner','admin'].includes(actor.role)) return NextResponse.json({error:'Only an Admin can edit business contact details.'},{status:403});
+  if (!actor || !['owner','admin','manager'].includes(actor.role)) return NextResponse.json({error:'Only an Admin, Owner, or Manager can edit business contact details.'},{status:403});
   if (!db) return NextResponse.json({error:'Database is not configured.'},{status:503});
   const parsed = inputSchema.safeParse(await req.json().catch(()=>null));
   if (!parsed.success) return NextResponse.json({error:parsed.error.issues[0]?.message || 'Check the business details.'},{status:400});
