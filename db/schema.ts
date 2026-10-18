@@ -1,6 +1,6 @@
 import { pgTable, uuid, varchar, text, boolean, timestamp, numeric, integer, pgEnum, index, uniqueIndex, jsonb } from 'drizzle-orm/pg-core';
 
-export const roleEnum = pgEnum('user_role', ['owner','manager','admin','cashier','inventory']);
+export const roleEnum = pgEnum('user_role', ['owner','manager','admin','employee','cashier','inventory']);
 export const transactionStatusEnum = pgEnum('transaction_status', ['draft','pending','completed','partially_paid','paid','cancelled','reversed']);
 export const paymentMethodEnum = pgEnum('payment_method', ['cash','gcash','maya','bank_transfer','credit','other']);
 
