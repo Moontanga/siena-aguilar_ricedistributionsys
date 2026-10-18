@@ -175,8 +175,12 @@
   .dashboard-overview-metrics .admin-metric > span { margin-bottom: 12px; }
 }
 @media (min-width: 1051px) and (max-width: 1199px) {
-  .admin-metrics.dashboard-overview-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-  .admin-metrics.report-metrics { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  /* Keep overview financial cards to two rows on normal desktop widths. */
+  .admin-metrics.dashboard-overview-metrics { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+  .dashboard-overview-metrics .admin-metric { padding: 12px; }
+  .dashboard-overview-metrics .admin-metric > strong { font-size: 17px; }
+  .dashboard-overview-metrics .admin-metric > p { line-height: 1.4; }
+  .admin-metrics.report-metrics { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
 }
 @media (max-width: 1050px) {
   .admin-metrics.dashboard-overview-metrics, .admin-metrics.report-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
