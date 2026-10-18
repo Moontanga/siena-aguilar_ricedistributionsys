@@ -185,3 +185,18 @@
 @media (max-width: 1050px) {
   .admin-metrics.dashboard-overview-metrics, .admin-metrics.report-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+
+/* Overview cards: keep the six-card first row and let the five-card second row fill the same width. */
+@media (min-width: 1051px) {
+  .admin-metrics.dashboard-overview-metrics { grid-template-columns: repeat(30, minmax(0, 1fr)); align-items: stretch; }
+  .dashboard-overview-metrics > .admin-metric { grid-column: span 5; min-width: 0; height: 100%; }
+  .dashboard-overview-metrics > .admin-metric:nth-child(n + 7) { grid-column: span 6; }
+  .dashboard-overview-metrics > .admin-metric > small { display: block; min-height: 2.6em; line-height: 1.3; }
+  .dashboard-overview-metrics > .admin-metric > p { min-height: 2.8em; line-height: 1.4; }
+}
+@media (min-width: 1051px) and (max-width: 1199px) {
+  .admin-metrics.dashboard-overview-metrics { gap: 10px; }
+  .dashboard-overview-metrics > .admin-metric { padding: 12px; }
+  .dashboard-overview-metrics > .admin-metric > strong { font-size: 17px; }
+}
