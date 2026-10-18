@@ -7,7 +7,7 @@ export const runtime='nodejs';
 export async function GET(req:NextRequest){
  const user=await getSessionUser();
  if(!user)return NextResponse.json({error:'Authentication required.'},{status:401});
- if(!['manager','admin','owner'].includes(user.role))return NextResponse.json({error:'You do not have permission to access business records.'},{status:403});
+ if(!['manager','admin','owner','employee'].includes(user.role))return NextResponse.json({error:'You do not have permission to access business records.'},{status:403});
  if(!db)return NextResponse.json({error:'Database is not configured.'},{status:503});
  const from=req.nextUrl.searchParams.get('from');const to=req.nextUrl.searchParams.get('to');
  const dateFilter=(column:any)=>and(from?gte(column,new Date(from+'T00:00:00.000Z')):undefined,to?lte(column,new Date(to+'T23:59:59.999Z')):undefined);
