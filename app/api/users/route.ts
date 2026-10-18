@@ -14,7 +14,7 @@ const schema = z.object({
     .refine(value => value.length > 0, 'Username is required.'),
   email: z.string().trim().email('Enter a valid email address.'),
   password: z.string().min(1, 'Password is required.'),
-  role: z.enum(['manager', 'admin']),
+  role: z.enum(['manager', 'admin', 'employee']),
 });
 
 async function adminActor() {
