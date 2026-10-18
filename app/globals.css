@@ -153,3 +153,9 @@
 .admin-empty{padding:38px 20px!important;color:#849187;text-align:center}
 @media(max-width:1000px){.admin-content{padding:24px 20px}.admin-page-title{align-items:flex-start}.admin-title-actions,.admin-actions{justify-content:flex-start}}
 @media(max-width:680px){.admin-content{padding:18px 12px}.admin-page-title{margin-bottom:18px}.admin-panel-head{padding:17px;align-items:flex-start;flex-direction:column}.admin-title-actions,.admin-actions{width:100%;justify-content:flex-start;gap:7px}.admin-metrics{gap:10px}.admin-metric{padding:14px}.admin-table th,.admin-table td{padding:12px}.admin-search{width:100%}}
+
+
+/* Dashboard profit metrics: fit five financial cards cleanly without crowding smaller screens. */
+@media (min-width: 1200px){.dashboard-profit-metrics{grid-template-columns:repeat(5,minmax(0,1fr));}}
+@media (max-width: 1199px){.dashboard-profit-metrics{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media (max-width: 560px){.dashboard-profit-metrics{grid-template-columns:minmax(0,1fr);}}
