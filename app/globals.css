@@ -233,3 +233,14 @@
 @media(min-width:1051px){.admin-metrics.dashboard-sales-metrics{grid-template-columns:repeat(20,minmax(0,1fr));gap:12px}.dashboard-sales-metrics>.admin-metric{grid-column:span 4;min-width:0;padding:15px}.dashboard-sales-metrics>.admin-metric:nth-child(n+6){grid-column:span 5}.admin-metrics.dashboard-cashflow-metrics{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.dashboard-cashflow-metrics>.admin-metric{min-width:0;padding:16px}.dashboard-sales-metrics .admin-metric>strong,.dashboard-cashflow-metrics .admin-metric>strong{font-size:clamp(16px,1.25vw,21px)}}
 @media(max-width:1050px){.admin-metrics.dashboard-sales-metrics,.admin-metrics.dashboard-cashflow-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:700px){.dashboard-metric-heading{align-items:flex-start;flex-direction:column;gap:4px}.dashboard-metric-heading h2{font-size:14px}.dashboard-metric-heading p{line-height:1.5}.admin-metrics.dashboard-sales-metrics,.admin-metrics.dashboard-cashflow-metrics{gap:9px}.dashboard-sales-metrics>.admin-metric,.dashboard-cashflow-metrics>.admin-metric{padding:12px}.dashboard-sales-metrics .admin-metric>strong,.dashboard-cashflow-metrics .admin-metric>strong{font-size:17px}}
+
+
+/* Cashflow workspace: six equal cards arranged in two balanced rows. */
+.admin-metrics.cashflow-page-metrics{grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:14px}
+.cashflow-page-metrics>.admin-metric{height:100%;min-height:148px;display:flex;flex-direction:column;align-items:flex-start;box-sizing:border-box;padding:18px}
+.cashflow-page-metrics>.admin-metric>span{flex:0 0 auto;margin-bottom:14px}
+.cashflow-page-metrics>.admin-metric>small{min-height:28px;line-height:1.4}
+.cashflow-page-metrics>.admin-metric>strong{width:100%;font-size:clamp(17px,1.4vw,23px);line-height:1.25;min-height:29px}
+.cashflow-page-metrics>.admin-metric>p{line-height:1.45;min-height:29px}
+@media(max-width:1050px){.admin-metrics.cashflow-page-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.cashflow-page-metrics>.admin-metric{min-height:142px}}
+@media(max-width:700px){.admin-metrics.cashflow-page-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.cashflow-page-metrics>.admin-metric{padding:12px;min-height:139px}.cashflow-page-metrics>.admin-metric>small{font-size:10px;min-height:27px}.cashflow-page-metrics>.admin-metric>strong{font-size:16px;min-height:26px;margin:7px 0}.cashflow-page-metrics>.admin-metric>p{font-size:9px;min-height:26px}.cashflow-page-metrics>.admin-metric>span{margin-bottom:11px}}
