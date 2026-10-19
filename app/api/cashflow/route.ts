@@ -14,7 +14,7 @@ export async function GET(req:NextRequest){
  try{
   const daily=await client.query(`
    WITH days AS (
-    SELECT generate_series(COALESCE($1::date, CURRENT_DATE - INTERVAL '6 days'), COALESCE($2::date, CURRENT_DATE), INTERVAL '1 day')::date AS day
+    SELECT generate_series(COALESCE($1::date, (CURRENT_DATE - INTERVAL '6 days')::date), COALESCE($2::date, CURRENT_DATE), INTERVAL '1 day')::date AS day
    )
    SELECT to_char(d.day,'YYYY-MM-DD') AS date,
     COALESCE((SELECT SUM(s.total) FROM sales s WHERE s.deleted_at IS NULL AND s.status NOT IN ('cancelled','reversed') AND s.created_at >= d.day AND s.created_at < d.day + INTERVAL '1 day'),0)::text AS "salesRevenue",
