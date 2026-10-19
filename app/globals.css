@@ -209,7 +209,7 @@
 .trend-legend{display:flex;align-items:center;gap:15px;flex-wrap:wrap;margin:2px 0 14px;color:#718075;font-size:10px}
 .trend-legend span{display:inline-flex;align-items:center;gap:6px}
 .trend-dot{display:inline-block;width:8px;height:8px;border-radius:3px}
-.trend-bars{height:170px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(5px,1.2vw,14px);align-items:stretch;border-bottom:1px solid #e6ede4;background:repeating-linear-gradient(to bottom,transparent 0,transparent 41px,#edf2eb 42px,#edf2eb 43px)}
+.trend-bars{height:170px;display:grid;overflow-x:auto;grid-template-columns:repeat(7,minmax(0,1fr));gap:clamp(5px,1.2vw,14px);align-items:stretch;border-bottom:1px solid #e6ede4;background:repeating-linear-gradient(to bottom,transparent 0,transparent 41px,#edf2eb 42px,#edf2eb 43px)}
 .trend-day{display:flex;flex-direction:column;justify-content:flex-end;align-items:center;min-width:0;gap:8px}
 .trend-bar-stack{height:145px;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:3px}
 .trend-bar{width:min(18px,28%);min-height:0;border-radius:5px 5px 1px 1px;opacity:.9;transition:height .25s ease,opacity .15s ease;align-self:flex-end}
