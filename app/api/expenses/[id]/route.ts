@@ -49,7 +49,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await getSessionUser();
   if (!user) return NextResponse.json({ error: 'Authentication required.' }, { status: 401 });
-  if (!allowed(user.role)) return NextResponse.json({ error: 'You do not have permission to delete expenses.' }, { status: 403 });
+  if (!['admin', 'owner'].includes(user.role)) return NextResponse.json({ error: 'Only an admin can delete expenses.' }, { status: 403 });
   if (!db) return NextResponse.json({ error: 'Database is not configured.' }, { status: 503 });
   const { id } = await params;
   const permanent = req.nextUrl.searchParams.get('permanent') === 'true';
