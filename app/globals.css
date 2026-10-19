@@ -223,3 +223,13 @@
 .trend-foot{display:flex;justify-content:space-between;gap:12px;color:#8b988d;font-size:9px;padding-top:11px}
 .cashflow-note{margin:0 22px 18px;padding:12px 14px;border:1px solid #e2eade;border-radius:9px;background:#f7faf5;color:#65766a;font-size:10px;line-height:1.6}
 @media(max-width:760px){.dashboard-chart-row{grid-template-columns:minmax(0,1fr)}.trend-chart{padding:4px 14px 15px}.trend-bars{gap:4px}.trend-bar{width:26%}.cashflow-note{margin:0 14px 15px}}
+
+
+/* Keep dashboard sales/inventory and cashflow figures in distinct sections. */
+.dashboard-metric-section{margin-bottom:20px;min-width:0}
+.dashboard-metric-heading{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 1px 11px}
+.dashboard-metric-heading h2{margin:0;color:#23412e;font-size:15px;font-weight:780;letter-spacing:-.2px}
+.dashboard-metric-heading p{margin:0;color:#829084;font-size:10px}
+@media(min-width:1051px){.admin-metrics.dashboard-sales-metrics{grid-template-columns:repeat(20,minmax(0,1fr));gap:12px}.dashboard-sales-metrics>.admin-metric{grid-column:span 4;min-width:0;padding:15px}.dashboard-sales-metrics>.admin-metric:nth-child(n+6){grid-column:span 5}.admin-metrics.dashboard-cashflow-metrics{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.dashboard-cashflow-metrics>.admin-metric{min-width:0;padding:16px}.dashboard-sales-metrics .admin-metric>strong,.dashboard-cashflow-metrics .admin-metric>strong{font-size:clamp(16px,1.25vw,21px)}}
+@media(max-width:1050px){.admin-metrics.dashboard-sales-metrics,.admin-metrics.dashboard-cashflow-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:700px){.dashboard-metric-heading{align-items:flex-start;flex-direction:column;gap:4px}.dashboard-metric-heading h2{font-size:14px}.dashboard-metric-heading p{line-height:1.5}.admin-metrics.dashboard-sales-metrics,.admin-metrics.dashboard-cashflow-metrics{gap:9px}.dashboard-sales-metrics>.admin-metric,.dashboard-cashflow-metrics>.admin-metric{padding:12px}.dashboard-sales-metrics .admin-metric>strong,.dashboard-cashflow-metrics .admin-metric>strong{font-size:17px}}
