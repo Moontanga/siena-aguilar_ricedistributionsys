@@ -9,7 +9,7 @@ export async function GET(req:NextRequest){
  if(!['manager','admin','owner','employee'].includes(user.role))return NextResponse.json({error:'You do not have permission to access cashflow.'},{status:403});
  if(!pool)return NextResponse.json({error:'Database is not configured.'},{status:503});
  const from=req.nextUrl.searchParams.get('from');const to=req.nextUrl.searchParams.get('to');
- if((from&&!/^\\d{4}-\\d{2}-\\d{2}$/.test(from))||(to&&!/^\\d{4}-\\d{2}-\\d{2}$/.test(to))||(from&&to&&from>to))return NextResponse.json({error:'Invalid cashflow date range.'},{status:400});
+ if((from&&!/^\d{4}-\d{2}-\d{2}$/.test(from))||(to&&!/^\d{4}-\d{2}-\d{2}$/.test(to))||(from&&to&&from>to))return NextResponse.json({error:'Invalid cashflow date range.'},{status:400});
  const client=await pool.connect();
  try{
   const daily=await client.query(`
