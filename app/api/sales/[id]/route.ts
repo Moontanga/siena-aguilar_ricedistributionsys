@@ -5,6 +5,11 @@ export const runtime='nodejs';
 const roleAllowed=(role:string)=>['manager','admin','owner'].includes(role);
 const statusFor=(paid:number,total:number,method:string)=>paid>=total-0.001?'paid':paid>0?'partially_paid':method==='credit'?'pending':'completed';
 
+export async function GET(_req:NextRequest,{params}:{params:Promise<{id:string}>}){
+ const user=await getSessionUser();if(!user)return NextResponse.json({error:'Authentication required.'},{status:401});if(!['manager','admin','owner','employee'].includes(user.role))return NextResponse.json({error:'You do not have permission to view sales.'},{status:403});if(!pool)return NextResponse.json({error:'Database is not configured.'},{status:503});
+ const {id}=await params;const client=await pool.connect();try{const found=await client.query('SELECT * FROM sales WHERE id=$1',[id]);const sale=found.rows[0];if(!sale)return NextResponse.json({error:'Sale not found.'},{status:404});const result=await client.query('SELECT * FROM sale_items WHERE sale_id=$1 ORDER BY id',[id]);const items=result.rows.map((item:any)=>({...item,quantitySacks:Number(item.quantity_entered),unitPrice:Number(item.unit_price),quantityKg:Number(item.quantity_kg)}));return NextResponse.json({sale,items,quantitySacks:items.length===1?items[0].quantitySacks:null});}catch(e:any){return NextResponse.json({error:e?.message||'Unable to load sale.'},{status:500});}finally{client.release();}
+}
+
 export async function PATCH(req:NextRequest,{params}:{params:Promise<{id:string}>}){
  const user=await getSessionUser();if(!user)return NextResponse.json({error:'Authentication required.'},{status:401});if(!roleAllowed(user.role))return NextResponse.json({error:'You do not have permission to edit sales.'},{status:403});if(!pool)return NextResponse.json({error:'Database is not configured.'},{status:503});
  const {id}=await params;const body=await req.json().catch(()=>null);if(!body||typeof body!=='object')return NextResponse.json({error:'Invalid sale update.'},{status:400});
