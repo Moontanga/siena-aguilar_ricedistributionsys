@@ -73,7 +73,8 @@ export async function POST(req: NextRequest) {
       entityType: 'sale',
       entityId: sale.id,
       details: {
-                amount: v.amount,
+        actor: { username: user.username, name: user.name, role: user.role },
+        amount: v.amount,
         method: v.method,
         remaining: Number(sale.total) - newPaid,
       },
