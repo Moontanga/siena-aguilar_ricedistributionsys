@@ -263,3 +263,9 @@
 .invoice-history-values>div{min-width:0}
 .invoice-history-values pre,.invoice-history-details{white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto;font-size:11px;padding:9px;border-radius:8px;background:var(--admin-muted-bg,#f3f5f3)}
 @media(max-width:640px){.sale-preview,.invoice-history-values{grid-template-columns:1fr}.invoice-preview-body{max-height:65vh}}
+
+/* Give the sales table and actions more breathing room from the panel edges. */
+.sales-history-panel .admin-panel-head{padding:24px 28px}
+.sales-history-panel .admin-table th,.sales-history-panel .admin-table td{padding-left:22px;padding-right:22px}
+.sales-history-panel .admin-row-actions{gap:9px}
+@media(max-width:700px){.sales-history-panel .admin-panel-head{padding:17px 18px}.sales-history-panel .admin-table th,.sales-history-panel .admin-table td{padding-left:16px;padding-right:16px}}
