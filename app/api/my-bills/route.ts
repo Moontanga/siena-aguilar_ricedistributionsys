@@ -60,7 +60,7 @@ export async function PATCH(req: NextRequest) {
       if (bill.billing_type === 'single') {
         await client.query("UPDATE personal_bills SET status='paid',last_paid_at=now(),updated_at=now() WHERE id=$1 AND user_id=$2", [bill.id,user.id]);
       } else {
-        await client.query(`UPDATE personal_bills SET last_paid_at=now(), next_due_date=COALESCE(next_due_date,CURRENT_DATE) + CASE frequency WHEN 'weekly' THEN INTERVAL '7 days' WHEN 'monthly' THEN INTERVAL '1 month' WHEN 'quarterly' THEN INTERVAL '3 months' WHEN 'yearly' THEN INTERVAL '1 year' ELSE INTERVAL '1 month' END, status='active', updated_at=now() WHERE id=$1 AND user_id=$2`, [bill.id,user.id]);
+        await client.query(`UPDATE personal_bills SET last_paid_at=now(), next_due_date=GREATEST(COALESCE(next_due_date,CURRENT_DATE),CURRENT_DATE) + CASE frequency WHEN 'weekly' THEN INTERVAL '7 days' WHEN 'monthly' THEN INTERVAL '1 month' WHEN 'quarterly' THEN INTERVAL '3 months' WHEN 'yearly' THEN INTERVAL '1 year' ELSE INTERVAL '1 month' END, status='active', updated_at=now() WHERE id=$1 AND user_id=$2`, [bill.id,user.id]);
       }
     } else {
       const title = typeof b.title === 'string' ? b.title.trim() : '';
