@@ -23,7 +23,6 @@ export async function GET(req: NextRequest) {
       : entityType
         ? eq(auditLogs.entityType, entityType)
         : undefined;
-    const entityId = req.nextUrl.searchParams.get('entityId');
     if (entityId) {
       const entityFilter = or(
         eq(auditLogs.entityId, entityId),
