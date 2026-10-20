@@ -244,3 +244,22 @@
 .cashflow-page-metrics>.admin-metric>p{line-height:1.45;min-height:29px}
 @media(max-width:1050px){.admin-metrics.cashflow-page-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.cashflow-page-metrics>.admin-metric{min-height:142px}}
 @media(max-width:700px){.admin-metrics.cashflow-page-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.cashflow-page-metrics>.admin-metric{padding:12px;min-height:139px}.cashflow-page-metrics>.admin-metric>small{font-size:10px;min-height:27px}.cashflow-page-metrics>.admin-metric>strong{font-size:16px;min-height:26px;margin:7px 0}.cashflow-page-metrics>.admin-metric>p{font-size:9px;min-height:26px}.cashflow-page-metrics>.admin-metric>span{margin-bottom:11px}}
+
+/* Clickable invoice preview and private invoice history */
+.invoice-link{appearance:none;border:0;background:transparent;color:var(--admin-accent,#26734d);font:inherit;font-weight:750;text-align:left;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px 0}
+.invoice-link:hover{filter:brightness(.82)}
+.invoice-preview-body{display:flex;flex-direction:column;gap:16px;max-height:70vh;overflow:auto;padding-right:3px}
+.sale-preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.sale-preview>span{display:flex;flex-direction:column;gap:4px;padding:10px 12px;border:1px solid var(--admin-border,#d9e2dc);border-radius:10px;background:var(--admin-surface,#fff);overflow-wrap:anywhere}
+.sale-preview>span>b{font-weight:700}
+.invoice-history-list{display:flex;flex-direction:column;gap:10px}
+.invoice-history-item{border:1px solid var(--admin-border,#d9e2dc);border-radius:12px;padding:12px;background:var(--admin-surface,#fff)}
+.invoice-history-head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.invoice-history-head>span,.admin-muted{font-size:12px;opacity:.75}
+.invoice-history-item>p{margin:7px 0;font-size:13px}
+.invoice-history-item details{margin-top:8px}
+.invoice-history-item summary{cursor:pointer;font-size:13px;font-weight:650}
+.invoice-history-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:8px}
+.invoice-history-values>div{min-width:0}
+.invoice-history-values pre,.invoice-history-details{white-space:pre-wrap;overflow-wrap:anywhere;max-height:240px;overflow:auto;font-size:11px;padding:9px;border-radius:8px;background:var(--admin-muted-bg,#f3f5f3)}
+@media(max-width:640px){.sale-preview,.invoice-history-values{grid-template-columns:1fr}.invoice-preview-body{max-height:65vh}}
