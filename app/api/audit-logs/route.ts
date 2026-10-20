@@ -24,10 +24,7 @@ export async function GET(req: NextRequest) {
         : undefined;
     const entityId = req.nextUrl.searchParams.get('entityId');
     if (entityId) {
-      const entityFilter = or(
-        eq(auditLogs.entityId, entityId),
-        sql`${auditLogs.details}->>'saleId' = ${entityId}`,
-      );
+      const entityFilter = eq(auditLogs.entityId, entityId);
       filters = filters ? and(filters, entityFilter) : entityFilter;
     }
     const rows = await db.select({
