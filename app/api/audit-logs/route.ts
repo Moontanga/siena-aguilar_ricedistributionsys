@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { and, desc, eq } from 'drizzle-orm';
+import { and, desc, eq, or } from 'drizzle-orm';
 import { db } from '@/lib/db';
 import { auditLogs, users } from '@/db/schema';
 import { getSessionUser } from '@/lib/auth';
@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
   const limit = Number.isFinite(rawLimit) ? Math.min(500, Math.max(1, Math.floor(rawLimit))) : 200;
   const entityType = req.nextUrl.searchParams.get('entityType');
   try {
-    const filters = entityType ? and(eq(auditLogs.entityType, entityType)) : undefined;
+    const filters = entityType === 'payment' ? or(eq(auditLogs.action, 'payment_received'), eq(auditLogs.action, 'payment_edited')) : entityType ? eq(auditLogs.entityType, entityType) : undefined;
     const rows = await db.select({
       id: auditLogs.id,
       userId: auditLogs.userId,
