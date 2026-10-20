@@ -4,7 +4,7 @@ import { getSessionUser } from '@/lib/auth';
 
 export const runtime = 'nodejs';
 const allowedFrequencies = ['weekly','monthly','quarterly','yearly'];
-const validDate = (v: unknown) => typeof v === 'string' && /^\\d{4}-\\d{2}-\\d{2}$/.test(v);
+const validDate = (v: unknown) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v);
 const fields = 'id, title, amount, billing_type AS "billingType", frequency, next_due_date AS "nextDueDate", interval_days AS "intervalDays", notes, status, last_paid_at AS "lastPaidAt", created_at AS "createdAt", updated_at AS "updatedAt"';
 
 export async function GET() {
