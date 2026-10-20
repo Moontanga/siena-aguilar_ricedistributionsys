@@ -28,7 +28,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (body?.restore === true) {
     if (!existing.deletedAt) return NextResponse.json({ error: 'This expense is not in Trash.' }, { status: 409 });
     const [restored] = await db.update(expenses).set({ deletedAt: null, deletedBy: null }).where(eq(expenses.id, id)).returning();
-    await db.insert(auditLogs).values({ userId: user.id, action: 'restore', entityType: 'expense', entityId: id, details: { actor: { username: user.username, name: user.name, role: user.role }, actor: { username: user.username, name: user.name, role: user.role }, amount: existing.amount, category: existing.category } });
+    await db.insert(auditLogs).values({ userId: user.id, action: 'restore', entityType: 'expense', entityId: id, details: { actor: { username: user.username, name: user.name, role: user.role }, before: { deletedAt: existing.deletedAt, category: existing.category, description: existing.description, amount: existing.amount, paymentMethod: existing.paymentMethod, reference: existing.reference }, after: { deletedAt: null, category: existing.category, description: existing.description, amount: existing.amount, paymentMethod: existing.paymentMethod, reference: existing.reference } } });
     return NextResponse.json({ expense: restored });
   }
 
@@ -42,7 +42,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
     paymentMethod: parsed.data.paymentMethod,
     reference: parsed.data.reference || null
   }).where(eq(expenses.id, id)).returning();
-  await db.insert(auditLogs).values({ userId: user.id, action: 'update', entityType: 'expense', entityId: id, details: { actor: { username: user.username, name: user.name, role: user.role }, actor: { username: user.username, name: user.name, role: user.role }, before: { category: existing.category, description: existing.description, amount: existing.amount }, after: { category: updated.category, description: updated.description, amount: updated.amount } } });
+  await db.insert(auditLogs).values({ userId: user.id, action: 'update', entityType: 'expense', entityId: id, details: { actor: { username: user.username, name: user.name, role: user.role }, before: { category: existing.category, description: existing.description, amount: existing.amount }, after: { category: updated.category, description: updated.description, amount: updated.amount } } });
   return NextResponse.json({ expense: updated });
 }
 
@@ -58,13 +58,13 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
 
   if (permanent) {
     if (!existing.deletedAt) return NextResponse.json({ error: 'Move this expense to Trash before permanently deleting it.' }, { status: 409 });
-    await db.insert(auditLogs).values({ userId: user.id, action: 'permanent_delete', entityType: 'expense', entityId: id, details: { actor: { username: user.username, name: user.name, role: user.role }, actor: { username: user.username, name: user.name, role: user.role }, category: existing.category, description: existing.description, amount: existing.amount } });
+    await db.insert(auditLogs).values({ userId: user.id, action: 'permanent_delete', entityType: 'expense', entityId: id, details: { actor: { username: user.username, name: user.name, role: user.role }, before: { deletedAt: existing.deletedAt, category: existing.category, description: existing.description, amount: existing.amount, paymentMethod: existing.paymentMethod, reference: existing.reference }, after: null } });
     await db.delete(expenses).where(eq(expenses.id, id));
     return NextResponse.json({ success: true, permanentlyDeleted: true });
   }
 
   if (existing.deletedAt) return NextResponse.json({ error: 'This expense is already in Trash.' }, { status: 409 });
   await db.update(expenses).set({ deletedAt: new Date(), deletedBy: user.id }).where(eq(expenses.id, id));
-  await db.insert(auditLogs).values({ userId: user.id, action: 'trash', entityType: 'expense', entityId: id, details: { actor: { username: user.username, name: user.name, role: user.role }, actor: { username: user.username, name: user.name, role: user.role }, category: existing.category, description: existing.description, amount: existing.amount } });
+  await db.insert(auditLogs).values({ userId: user.id, action: 'trash', entityType: 'expense', entityId: id, details: { actor: { username: user.username, name: user.name, role: user.role }, before: { deletedAt: existing.deletedAt, category: existing.category, description: existing.description, amount: existing.amount, paymentMethod: existing.paymentMethod, reference: existing.reference }, after: { deletedAt: 'now', deletedBy: user.id, category: existing.category, description: existing.description, amount: existing.amount, paymentMethod: existing.paymentMethod, reference: existing.reference } } });
   return NextResponse.json({ success: true, trashed: true });
 }
