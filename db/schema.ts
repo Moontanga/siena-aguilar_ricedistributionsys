@@ -1,4 +1,4 @@
-import { pgTable, uuid, varchar, text, boolean, timestamp, numeric, integer, pgEnum, index, uniqueIndex, jsonb } from 'drizzle-orm/pg-core';
+import { pgTable, uuid, varchar, text, boolean, timestamp, numeric, integer, pgEnum, index, uniqueIndex, jsonb, date } from 'drizzle-orm/pg-core';
 
 export const roleEnum = pgEnum('user_role', ['owner','manager','admin','employee','cashier','inventory']);
 export const transactionStatusEnum = pgEnum('transaction_status', ['draft','pending','completed','partially_paid','paid','cancelled','reversed']);
@@ -30,3 +30,19 @@ export const businessProfile = pgTable('business_profile', {
   businessAddress: text('business_address'),
   updatedAt: timestamp('updated_at',{withTimezone:true}).notNull().defaultNow()
 });
+
+export const personalBills = pgTable('personal_bills', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  userId: uuid('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  title: varchar('title',{length:180}).notNull(),
+  amount: numeric('amount',{precision:14,scale:2}).notNull(),
+  billingType: varchar('billing_type',{length:16}).notNull(),
+  frequency: varchar('frequency',{length:16}),
+  nextDueDate: date('next_due_date',{mode:'string'}),
+  intervalDays: integer('interval_days'),
+  notes: text('notes'),
+  status: varchar('status',{length:16}).notNull().default('active'),
+  lastPaidAt: timestamp('last_paid_at',{withTimezone:true}),
+  createdAt: timestamp('created_at',{withTimezone:true}).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at',{withTimezone:true}).notNull().defaultNow()
+}, t => [index('personal_bills_user_due_idx').on(t.userId,t.nextDueDate)]);
