@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
   const entityId = req.nextUrl.searchParams.get('entityId');
   try {
     let filters:any = entityType === 'payment' ? or(eq(auditLogs.action, 'payment_received'), eq(auditLogs.action, 'payment_edited')) : entityType ? eq(auditLogs.entityType, entityType) : undefined;
-    if (entityId) filters = filters ? and(filters, or(eq(auditLogs.entityId, entityId), sql\`${auditLogs.details}->>'saleId' = \${entityId}\`)) : or(eq(auditLogs.entityId, entityId), sql\`${auditLogs.details}->>'saleId' = \${entityId}\`);
+    if (entityId) filters = filters ? and(filters, or(eq(auditLogs.entityId, entityId), sql`${auditLogs.details}->>'saleId' = ${entityId}\`)) : or(eq(auditLogs.entityId, entityId), sql`${auditLogs.details}->>'saleId' = ${entityId}\`);
     const rows = await db.select({
       id: auditLogs.id,
       userId: auditLogs.userId,
