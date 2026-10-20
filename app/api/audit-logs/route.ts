@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { and, desc, eq, or } from 'drizzle-orm';
+import { and, desc, eq, or, sql } from 'drizzle-orm';
 import { db } from '@/lib/db';
 import { auditLogs, users } from '@/db/schema';
 import { getSessionUser } from '@/lib/auth';
@@ -16,8 +16,10 @@ export async function GET(req: NextRequest) {
   const rawLimit = Number(req.nextUrl.searchParams.get('limit') || 200);
   const limit = Number.isFinite(rawLimit) ? Math.min(500, Math.max(1, Math.floor(rawLimit))) : 200;
   const entityType = req.nextUrl.searchParams.get('entityType');
+  const entityId = req.nextUrl.searchParams.get('entityId');
   try {
-    const filters = entityType === 'payment' ? or(eq(auditLogs.action, 'payment_received'), eq(auditLogs.action, 'payment_edited')) : entityType ? eq(auditLogs.entityType, entityType) : undefined;
+    let filters:any = entityType === 'payment' ? or(eq(auditLogs.action, 'payment_received'), eq(auditLogs.action, 'payment_edited')) : entityType ? eq(auditLogs.entityType, entityType) : undefined;
+    if (entityId) filters = filters ? and(filters, or(eq(auditLogs.entityId, entityId), sql\`${auditLogs.details}->>'saleId' = \${entityId}\`)) : or(eq(auditLogs.entityId, entityId), sql\`${auditLogs.details}->>'saleId' = \${entityId}\`);
     const rows = await db.select({
       id: auditLogs.id,
       userId: auditLogs.userId,
