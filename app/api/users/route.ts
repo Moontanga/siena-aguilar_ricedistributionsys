@@ -78,7 +78,7 @@ export async function POST(req: NextRequest) {
     });
 
     // Do not make a successful account creation appear to fail if audit logging needs repair.
-    try { await db.insert(auditLogs).values({ userId: actor.id, action: 'create', entityType: 'user', entityId: user.id, details: { username: user.username, email: user.email, role: user.role } }); }
+    try { await db.insert(auditLogs).values({ userId: actor.id, action: 'create', entityType: 'user', entityId: user.id, details: { actor: { username: actor.username, name: actor.name, role: actor.role }, username: user.username, email: user.email, role: user.role } }); }
     catch (auditError) { console.error('Account created but audit write failed:', auditError); }
     return NextResponse.json({ user }, { status: 201 });
   } catch (error: any) {
