@@ -244,3 +244,21 @@
 .cashflow-page-metrics>.admin-metric>p{line-height:1.45;min-height:29px}
 @media(max-width:1050px){.admin-metrics.cashflow-page-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.cashflow-page-metrics>.admin-metric{min-height:142px}}
 @media(max-width:700px){.admin-metrics.cashflow-page-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.cashflow-page-metrics>.admin-metric{padding:12px;min-height:139px}.cashflow-page-metrics>.admin-metric>small{font-size:10px;min-height:27px}.cashflow-page-metrics>.admin-metric>strong{font-size:16px;min-height:26px;margin:7px 0}.cashflow-page-metrics>.admin-metric>p{font-size:9px;min-height:26px}.cashflow-page-metrics>.admin-metric>span{margin-bottom:11px}}
+
+/* Clickable invoice preview and per-invoice change timeline */
+.invoice-link{border:0;background:transparent;color:#17643c;font:inherit;font-weight:800;text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px 0;text-align:left}
+.invoice-link:hover{color:#0a3823}
+.invoice-preview-body{padding:0 22px 20px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.invoice-preview-body h3{font-size:14px;color:#17432d;margin:8px 0 0}
+.invoice-preview-body .sale-preview{margin:0}
+.invoice-history-list{display:flex;flex-direction:column;gap:10px}
+.invoice-history-item{border:1px solid #e0e8df;border-radius:9px;padding:12px;background:#fff;min-width:0}
+.invoice-history-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;color:#244832;font-size:12px}
+.invoice-history-head span{font-size:10px;color:#718075;text-align:right}
+.invoice-history-item p{font-size:11px;color:#657568;margin:7px 0}
+.invoice-history-item details summary{cursor:pointer;color:#17643c;font-size:11px;font-weight:700}
+.invoice-history-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px}
+.invoice-history-values pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:220px;overflow:auto;background:#f5f7f3;border-radius:6px;padding:9px;font-size:10px;color:#45594b}
+.invoice-history-values>div>b{font-size:11px;color:#526b58}
+.admin-muted{display:block;color:#778578;font-size:10px;margin-top:4px}
+@media(max-width:640px){.invoice-history-values{grid-template-columns:1fr}.invoice-history-head{flex-direction:column}.invoice-history-head span{text-align:left}.invoice-preview-body{padding-left:12px;padding-right:12px}}
