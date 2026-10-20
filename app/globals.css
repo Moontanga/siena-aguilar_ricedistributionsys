@@ -244,3 +244,6 @@
 .cashflow-page-metrics>.admin-metric>p{line-height:1.45;min-height:29px}
 @media(max-width:1050px){.admin-metrics.cashflow-page-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.cashflow-page-metrics>.admin-metric{min-height:142px}}
 @media(max-width:700px){.admin-metrics.cashflow-page-metrics{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.cashflow-page-metrics>.admin-metric{padding:12px;min-height:139px}.cashflow-page-metrics>.admin-metric>small{font-size:10px;min-height:27px}.cashflow-page-metrics>.admin-metric>strong{font-size:16px;min-height:26px;margin:7px 0}.cashflow-page-metrics>.admin-metric>p{font-size:9px;min-height:26px}.cashflow-page-metrics>.admin-metric>span{margin-bottom:11px}}
+
+
+
