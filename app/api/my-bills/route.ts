@@ -77,8 +77,8 @@ export async function PATCH(req: NextRequest) {
         return NextResponse.json({ error: 'Renewal bills need a frequency and next due date.' }, { status: 400 });
       }
       const updated = await pool.query(
-        `UPDATE personal_bills SET title=$1, reference_number=$2, amount=$3, billing_type=$4, frequency=$5, next_due_date=$6, notes=$7,
-          status=CASE WHEN $4='single' AND status='paid' THEN 'paid' ELSE 'active' END, updated_at=now()
+        `UPDATE personal_bills SET title=$1, reference_number=$2, amount=$3, billing_type=$4::varchar, frequency=$5, next_due_date=$6, notes=$7,
+          status=CASE WHEN $4::varchar='single' AND status='paid' THEN 'paid' ELSE 'active' END, updated_at=now()
          WHERE id=$8 AND user_id=$9 RETURNING id`,
         [title,referenceNumber,amount.toFixed(2),type,type==='renewal'?frequency:null,type==='renewal'?b.nextDueDate:null,typeof b.notes==='string'?b.notes.trim().slice(0,2000):null,b.id,user.id]
       );
